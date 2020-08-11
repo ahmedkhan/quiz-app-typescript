@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import QuestionsCard from './components/QuestionsCard';
 import { fetchQuestions, Difficulty, QuestionState } from './API';
+import { GlobalStyle, Wrapper } from './App.styles';
 
 
 const TOTAL_QUESTIONS = 10;
@@ -32,7 +33,7 @@ function App() {
     setLoading(false);
   };
 
-  const nextQuestion = async () => { 
+  const nextQuestion = async () => {
     const nextQuestion = number + 1;
     if (nextQuestion === TOTAL_QUESTIONS) {
       setGameOver(true);
@@ -40,9 +41,9 @@ function App() {
     else {
       setNumber(nextQuestion);
     }
-   };
+  };
 
-  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => { 
+  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
       const answer = e.currentTarget.value;
 
@@ -59,35 +60,38 @@ function App() {
 
       setUserAnswers(prev => [...prev, answerObject])
     }
-   };
+  };
 
 
   return (
-    <div className="App">
+    <>
+    <GlobalStyle/>
+    <Wrapper>
       <h1>Quiz App</h1>
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-      <button className="start" onClick={startQuiz}>Start Quiz</button>) : null }
+        <button className="start" onClick={startQuiz}>Start Quiz</button>) : null}
 
       {!gameOver ? (
-      <p className="score">Score :{score}</p>) : null}
+        <p className="score">Score :{score}</p>) : null}
 
       {loading ? (
-      <p>Loading...</p>) :null}
+        <p>Loading...</p>) : null}
 
-      {!loading && !gameOver ? ( 
-      <QuestionsCard
-        questionNum={number + 1}
-        totalQuestions={TOTAL_QUESTIONS}
-        question={questions[number].question}
-        answers={questions[number].answers}
-        userAnswer={userAnswers ? userAnswers[number] : undefined}
-        callback={checkAnswer}
-      />):null}
+      {!loading && !gameOver ? (
+        <QuestionsCard
+          questionNum={number + 1}
+          totalQuestions={TOTAL_QUESTIONS}
+          question={questions[number].question}
+          answers={questions[number].answers}
+          userAnswer={userAnswers ? userAnswers[number] : undefined}
+          callback={checkAnswer}
+        />) : null}
 
-      {!gameOver && !loading && userAnswers.length === number +1 && number !== TOTAL_QUESTIONS -1 ? (
-      <button className="next" onClick={nextQuestion}>Next</button>) :null }
-    </div>
+      {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1 ? (
+        <button className="next" onClick={nextQuestion}>Next</button>) : null}
+      </Wrapper>  
+    </>
   );
 }
- 
+
 export default App;
