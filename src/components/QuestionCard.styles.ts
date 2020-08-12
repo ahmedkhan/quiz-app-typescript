@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
     font-size: 1rem;
   }
 `;
-
+ 
 type ButtonWrapperProps = {
   correct: boolean;
   userClicked: boolean;

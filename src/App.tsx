@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import QuestionsCard from './components/QuestionsCard';
-import { fetchQuestions, Difficulty, QuestionState } from './API';
+import { fetchQuestions,  QuestionState } from './API';
 import { GlobalStyle, Wrapper } from './App.styles';
 
 
@@ -12,7 +12,11 @@ type AnswerObject = {
   answer: string,
   correct: boolean,
   correctAnswer: string
+
 }
+
+
+
 function App() {
 
   const [loading, setLoading] = useState(false);
@@ -21,23 +25,23 @@ function App() {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
+  const [difficulty,setDifficulty]= useState<string>("easy")
  
-
+ console.log(questions)
 
   const startQuiz = async () => {
     setLoading(true);
     setGameOver(false);
-    const newQuestions = await fetchQuestions(TOTAL_QUESTIONS, Difficulty.MEDIUM)
+    const newQuestions = await fetchQuestions(TOTAL_QUESTIONS, difficulty)
     setQuestions(newQuestions)
     setScore(0);
     setUserAnswers([]);
     setNumber(0);
-    setLoading(false);
+    setLoading(false);   
 
   };
 
   
-
 
   const nextQuestion = async () => {
     const nextQuestion = number + 1;
@@ -75,9 +79,22 @@ function App() {
       <Wrapper>
         <h1>Quiz App</h1>
         {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-         
-            <button className="start" onClick={startQuiz}>Start Quiz</button>
-            
+          <>
+            <h3>Select the Difficulty Level</h3>
+            <div className="custom-select" style={{width:"200px"}}>
+            <select                        
+            onBlur={(
+                ev: React.ChangeEvent<HTMLSelectElement>,
+            ): void => setDifficulty(ev.target.value)}
+        >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        </div>
+        <button className="start" onClick={startQuiz}>Start Quiz</button>
+          </>
+           
         ) : null}
 
         {!gameOver ? (

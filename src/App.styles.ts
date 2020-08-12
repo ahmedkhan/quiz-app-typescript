@@ -17,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
         font-family: 'Catamaran', sans-serif;
     }
 `
-
+ 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,8 +34,7 @@ export const Wrapper = styled.div`
     font-family:'Lora', serif;
     color : #202329;
     font-weight: 400;
-    background-size: 100%;
-    
+    background-size: 100%;    
     font-size: 70px;
     text-align: center;
     margin: 20px;
@@ -68,4 +67,13 @@ export const Wrapper = styled.div`
 	-moz-box-shadow: 5px 5px 15px 3px rgb(0, 154, 156);
 	box-shadow: 5px 5px 15px 3px rgb(0, 154, 156);
   }
+  
+  .custom-select {
+  position: relative;
+  font-family: 'Playfair Display', serif;
+  padding-left: 65px;
+  padding-right: 65px;
+  }
+  
+
 `; 
