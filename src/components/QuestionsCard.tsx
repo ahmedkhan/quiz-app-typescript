@@ -33,3 +33,4 @@ const QuestionsCard : React.FC<props> = ({question,answers,callback,userAnswer,q
     )   
 }
 export default QuestionsCard;
+ 
