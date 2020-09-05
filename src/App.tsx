@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import QuestionsCard from './components/QuestionsCard';
 import { fetchQuestions,  QuestionState } from './API';
 import { GlobalStyle, Wrapper } from './App.styles';
-
+import {deferredPrompt} from './sw';
 
 const TOTAL_QUESTIONS = 10;
 
@@ -15,7 +15,7 @@ type AnswerObject = {
 
 }
 
-
+ 
 
 function App() {
 
@@ -25,9 +25,9 @@ function App() {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
-  const [difficulty,setDifficulty]= useState<string>("easy")
+  const [difficulty,setDifficulty]= useState<string>("easy");
  
- console.log(questions)
+
 
   const startQuiz = async () => {
     setLoading(true);
@@ -37,11 +37,25 @@ function App() {
     setScore(0);
     setUserAnswers([]);
     setNumber(0);
-    setLoading(false);   
+    setLoading(false);
+    
+    if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function(choiceResult:any){
+             console.log(choiceResult.outcome);
+
+             if (choiceResult.outcome === 'dismissed'){
+                 console.log("user cancel installiation")
+             }else {
+                 console.log("User Added to Home screen")
+             }
+            });                   
+           
+        }  
 
   };
 
-  
+   
 
   const nextQuestion = async () => {
     const nextQuestion = number + 1;
